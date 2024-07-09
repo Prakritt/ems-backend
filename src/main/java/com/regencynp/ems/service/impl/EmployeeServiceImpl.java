@@ -2,6 +2,7 @@ package com.regencynp.ems.service.impl;
 
 import com.regencynp.ems.dto.EmployeeDto;
 import com.regencynp.ems.entity.Employee;
+import com.regencynp.ems.exception.ResourceNotFoundException;
 import com.regencynp.ems.mapper.EmployeeMapper;
 import com.regencynp.ems.repository.EmployeeRepository;
 import com.regencynp.ems.service.EmployeeService;
@@ -20,4 +21,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee savedEmployee = employeeRepository.save(employee);
         return EmployeeMapper.mapToEmployeeDto(employee);
     }
+
+    @Override
+    public EmployeeDto findEmployeeById(Long employeeId) {
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(()-> new ResourceNotFoundException("Employee Not Found"));
+
+        return EmployeeMapper.mapToEmployeeDto(employee);
+    }
+
+
 }
